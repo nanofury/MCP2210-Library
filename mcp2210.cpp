@@ -20,6 +20,18 @@ using namespace std;
 
 #include "mcp2210.h"
 
+#ifdef _WIN32
+#include <Windows.h>
+#ifdef min
+#undef min
+#endif
+#ifdef max
+#undef max
+#endif
+#else
+#error "unknown platform"
+#endif
+
 int SendUSBCmd(hid_device *handle, byte *cmdBuf, byte *responseBuf) {
     int r = 0;
     r = hid_write(handle, cmdBuf, 64);
@@ -41,7 +53,11 @@ int SendUSBCmd(hid_device *handle, byte *cmdBuf, byte *responseBuf) {
     while (r == 0) {
         r = hid_read(handle, responseBuf, 64);
         if (r < 0) return ERROR_UNABLE_TO_READ_FROM_DEVICE;
+#ifdef WIN32
+        Sleep(1);
+#else
         usleep(1000);
+#endif
     }
 
     return responseBuf[1];
