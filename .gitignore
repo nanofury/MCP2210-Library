@@ -16,3 +16,6 @@ dist
 doxygen
 gitcmd.txt
 .gitignore
+
+# other files to be ignored
+*.bak
