@@ -293,7 +293,7 @@ ManufacturerProductNameDef GetManufacturerProductName(hid_device *handle, unsign
         def.USBStringDescriptorLength = rsp[4];
         def.USBStringDescriptorID = rsp[5];
 
-        for (int i = 0; i < def.USBStringDescriptorLength; i++)
+        for (unsigned int i = 0; i < def.USBStringDescriptorLength; i++)
             def.ManufacturerProductName[i] = rsp[6 + i];
     }
 
@@ -313,7 +313,7 @@ int SetManufacturerProductName(hid_device *handle, unsigned int subCmdCode, Manu
     cmd[4] = def.USBStringDescriptorLength;
     cmd[5] = 0x3;
 
-    for (int i = 0; i < def.USBStringDescriptorLength; i++)
+    for (unsigned int i = 0; i < def.USBStringDescriptorLength; i++)
         cmd[6 + i] = def.ManufacturerProductName[i];
 
     return SendUSBCmd(handle, cmd, rsp);
@@ -453,7 +453,7 @@ SPIDataTransferStatusDef SPIDataTransfer(hid_device *handle, byte* data, int len
         def.NumberOfBytesReceived = rsp[2];
         def.SPIEngineStatus = rsp[3];
 
-        for (int i = 0; i < def.NumberOfBytesReceived; i++)
+        for (unsigned int i = 0; i < def.NumberOfBytesReceived; i++)
             def.DataReceived[i] = rsp[i + 4];
     }
 
