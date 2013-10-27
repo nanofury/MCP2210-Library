@@ -618,8 +618,10 @@ int HID_API_EXPORT HID_API_CALL hid_write(hid_device *dev, const unsigned char *
 		/* Create a temporary buffer and copy the user's data
 		   into it, padding the rest with zeros. */
 		buf = (unsigned char *) malloc(dev->output_report_length);
-		memcpy(buf, data, length);
-		memset(buf + length, 0, dev->output_report_length - length);
+		memset(buf, 0, dev->output_report_length);	// zero-fill everything first
+		memcpy(buf+1, data, length);	// first (of 65-byte transfer) byte MUST be zero - http://www.microchip.com/forums/m734196.aspx
+//		memcpy(buf, data, length);
+//		memset(buf + length, 0, dev->output_report_length - length);
 		length = dev->output_report_length;
 	}
 
